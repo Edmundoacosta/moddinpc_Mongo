@@ -8,6 +8,7 @@ const indexRoutes = require('./routes/index');
 const users = require('./routes/users');
 const cors = require('cors');
 const constants = require('../lib/constants');
+require('./config/passport');
 
 
 //connecting to DB
