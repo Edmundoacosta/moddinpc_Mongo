@@ -5,10 +5,10 @@ const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 var secret = require('../config').secret;
 const UserSchema = new Schema({
-	name: {type: String},
+	firstname: {type: String},
 	lastname: {type: String},
 	password: {type: String},
-	email: {type: String, lowercase: true, unique: true},
+	email: {type: String, unique: true, required: [true, "cannot be empty."], lowercase: true, index: true},
 	dob: { type: Date, default: new Date() },
 	address: {type: String},
 	zipCode: Number,
@@ -16,7 +16,7 @@ const UserSchema = new Schema({
 	salt: String,
 	hash: String,
 	status: Boolean
-});
+}, {timestamps: true});
 
 UserSchema.plugin(uniqueValidator, {message: 'is already taken'});
 
@@ -44,8 +44,9 @@ UserSchema.methods.generateJWT = function(){
 
 UserSchema.methods.toAuthJSON = function(){
     return {
-        name: this.name,
+        firstname: this.firstname,
         lastname: this.lastname,
+        username: this.username,
         email: this.email,
         token: this.generateJWT()
     };
