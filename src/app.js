@@ -32,16 +32,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', indexRoutes);
 app.use('/users', users);
-app.use(require('./routes'));
-/// catch 404 and forward to error handler
-app.use(function(req, res, next) {
-  var err = new Error('Not Found');
-  err.status = 404;
-  next(err);
-});
+
 
 app.listen(app.get('port'), () => {
 	console.log('Server on port', app.get('port'));
 });
+
 
 module.exports = app;
