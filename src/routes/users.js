@@ -15,9 +15,14 @@ router.get('/user', auth.required, function(req,res,next){
 
 router.post("/register", async (req, res, next) => {
 	var user = new User();
-	user.username = req.body.user.username;
-	user.email = req.body.user.email;
-	user.setPassword(req.body.user.password);
+	user.firstname = req.body.firstname;
+    user.lastname = req.body.lastname;
+    user.dni = req.body.dni;
+	user.email = req.body.email;
+    user.phone = req.body.phone;
+    user.department = req.body.department;
+    user.postalcode = req.body.postalcode;
+	user.setPassword(req.body.password);
 
 	user.save().then(function(){
 		return res.json({user: user.toAuthJSON()});
