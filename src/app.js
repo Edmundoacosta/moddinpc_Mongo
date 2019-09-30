@@ -6,6 +6,7 @@ const app = express();
 const router = express.Router();
 const indexRoutes = require('./routes/index');
 const users = require('./routes/users');
+const addresses = require('./routes/addresses');
 const cors = require('cors');
 const constants = require('../lib/constants');
 require('./config/passport');
@@ -32,6 +33,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/', indexRoutes);
 app.use('/users', users);
+app.use('/address', addresses);
 
 
 app.listen(app.get('port'), () => {

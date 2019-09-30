@@ -4,18 +4,17 @@ const Schema = mongoose.Schema;
 const crypto = require('crypto');
 const jwt = require('jsonwebtoken');
 var secret = require('../config').secret;
+
 const UserSchema = new Schema({
 	firstname: {type: String},
 	lastname: {type: String},
 	password: {type: String},
-	address1: {type: String},
-	address2: {type: String},
 	dni: {type: String, unique: true, required: true},
 	phone: {type: String, unique: true, required: true},
 	email: {type: String, unique: true, required: [true, "cannot be empty."], lowercase: true, index: true},
-	postalcode: Number,
-	department: {type: String},
-	country: {type: String, default: 'peru'},
+	addresses: [
+		{ type: mongoose.Schema.Types.ObjectId, ref: "Addresses"}
+	],
 	admin: {type: Boolean,default: false},
 	salt: String,
 	hash: String,
