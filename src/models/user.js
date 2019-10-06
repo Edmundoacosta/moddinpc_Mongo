@@ -9,13 +9,17 @@ const UserSchema = new Schema({
 	firstname: {type: String},
 	lastname: {type: String},
 	password: {type: String},
-	dni: {type: String, unique: true, required: true},
+	id_type: {type: String, required: true},
+	id_number: {type: String, unique: true, required: true},
 	phone: {type: String, unique: true, required: true},
 	email: {type: String, unique: true, required: [true, "cannot be empty."], lowercase: true, index: true},
 	addresses: [
 		{ type: mongoose.Schema.Types.ObjectId, ref: "Addresses"}
 	],
-	admin: {type: Boolean,default: false},
+	admin: {type: Boolean, default: false},
+	country: {type: String, required: true, default: 'Perú'},
+	department: {type: String, required: true},
+	postalCode: {type: Number},
 	salt: String,
 	hash: String,
 	status: Boolean
