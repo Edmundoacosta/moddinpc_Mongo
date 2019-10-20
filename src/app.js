@@ -8,6 +8,7 @@ const indexRoutes = require('./routes/index');
 const users = require('./routes/users');
 const addresses = require('./routes/addresses');
 const products = require('./routes/products');
+const categories = require('./routes/categories');
 const cors = require('cors');
 const constants = require('../lib/constants');
 require('./config/passport');
@@ -36,6 +37,7 @@ app.use('/', indexRoutes);
 app.use('/users', users);
 app.use('/address', addresses);
 app.use('/products', products);
+app.use('/category', categories);
 
 
 app.listen(app.get('port'), () => {

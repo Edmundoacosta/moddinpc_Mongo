@@ -6,7 +6,10 @@ const ProductSchema = new Schema({
 	name: {type: String, required: true, trim: true},
 	color: {type: String},
 	description: {type: String},
-	image: {type: String, trim: true},
+	principalImg: { data: Buffer, contentType: String},
+	images: [
+		{ type: String}
+	],
 	price: {type: Number},
 	inStock: {type: Number},
 	subcategory: {type: String}

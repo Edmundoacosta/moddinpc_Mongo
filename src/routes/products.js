@@ -3,10 +3,13 @@ const router = express.Router();
 const auth = require('./auth');
 const Product = require('../models/product');
 const mongoose = require('mongoose');
+const fs = require('fs');
 
 router.post("/add", async (req, res, next) => {
 	var prod = new Product(req.body);
-	prod.setPassword(req.body.password);
+    prod.principalImg.data = fs.readFileSync(req.body.principalImg);
+    prod.principalImg.contentType = 'image/png';
+    
 
 	prod.save().then(function(){
 		return res.json({prod: prod.toAuthJSON()});
