@@ -23,13 +23,13 @@ router.put('/address', auth.required, function(req,res,next){
     Address.findById(req.params.id).then(function(address){
         if(!address){return res.sendStatus(401);}
         if(typeof req.body.address.name !== 'undefined'){
-            address.setPassword(req.body.address.name);
+            address.name = req.body.address.name;
         }
         if(typeof req.body.address.district !== 'undefined'){
-            address.setPassword(req.body.address.district);
+            address.district = req.body.address.district;
         }
         if(typeof req.body.address.postalCode !== 'undefined'){
-            address.setPassword(req.body.address.postalCode);
+            address.postalCode = req.body.address.postalCode;
         }
         return address.save().then(function(){
             return res.json({address: address.toAuthJSON()});

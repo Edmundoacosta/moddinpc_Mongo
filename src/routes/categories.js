@@ -42,30 +42,25 @@ router.post('/subcreate', auth.required, function(req,res,next){
         });
 });
 
-router.post('/', auth.required, function(req,res,next){
-    let result = {};
-    Address.create(req.body)
-        .then((address) => {
-            result = address;
-            return User.findByIdAndUpdate(req.payload.id, { $push: {addresses: address._id}});
-        }).then(function(user){
-            res.send({
-                status: 201,
-                result: result
-            })
-        })
-});
-
 router.put('/update', auth.required, function(req,res,next){
-    Category.findById(req.payload.id).then(function(category){
+    Category.findById(req.body.id).then(function(category){
         if(!category){return res.sendStatus(401);}
-        if(typeof req.body.category.name !== 'undefined'){
-            category.setPassword(req.body.category.name);
+        if(typeof req.body.name !== 'undefined'){
+            category.name = req.body.name;
         }
         return category.save().then(function(){
             return res.json({category: category.toAuthJSON()});
         });
     }).catch(next);
+});
+
+router.delete('/delete/:id', auth.required, function(req,res,next){
+    Subcategory.findOneAndRemove({ _id: req.params.id}).then(function(ans){
+        res.send({
+            status: 201,
+            result: ans
+        });
+    });
 });
 
 module.exports = router;

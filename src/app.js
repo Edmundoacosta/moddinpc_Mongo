@@ -11,6 +11,7 @@ const products = require('./routes/products');
 const categories = require('./routes/categories');
 const cors = require('cors');
 const constants = require('../lib/constants');
+const fileUpload = require("express-fileupload");
 require('./config/passport');
 
 
@@ -30,8 +31,10 @@ app.set('view engine', 'ejs');
 
 
 // middlewares
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json({limit: '20mb', extended: true}));
+app.use(bodyParser.urlencoded({limit: '20mb', extended: true}));
+
+app.use(fileUpload());
 
 app.use('/', indexRoutes);
 app.use('/users', users);

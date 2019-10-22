@@ -6,7 +6,7 @@ const ProductSchema = new Schema({
 	name: {type: String, required: true, trim: true},
 	color: {type: String},
 	description: {type: String},
-	principalImg: { data: Buffer, contentType: String},
+	principalImg: {type: String, default: ''},
 	images: [
 		{ type: String}
 	],
