@@ -26,8 +26,8 @@ router.post("/add", auth.required, async (req, res, next) => {
     companyName = companyName.replace(/ñ/gi, 'ni');
     let filename = companyName + '.png';
     fs.writeFile(DIR + filename, req.body.principalImg, 'base64', async function(err) {
-        if(err) console.log(err);
         req.body.principalImg = filename;
+        req.body.images = await allImages(companyName, req.body.images);
         let product = await Product.create(req.body);
         return res.send({
             status: 201,
@@ -77,5 +77,25 @@ router.put('/update', auth.required, function(req,res,next){
         });
     }).catch(next);
 });
+
+async function allImages(name, images){
+    let imagesArray = [];
+    let imageName = name.toLowerCase().split(' ').join('_');
+    imageName = imageName.replace(/#|&|%|,|¡|!/gi, '-');
+    imageName = imageName.replace(/á/gi, 'a');
+    imageName = imageName.replace(/é/gi, 'e');
+    imageName = imageName.replace(/í/gi, 'i');
+    imageName = imageName.replace(/ó/gi, 'o');
+    imageName = imageName.replace(/ú|ü/gi, 'u');
+    imageName = imageName.replace(/ñ/gi, 'ni');
+    for (var i = 0; i < images.length; i++) {
+        let filename = imageName + (i+1).toString() + '.png';
+        fs.writeFile(DIR + filename, images[i], 'base64', async function(err) {
+            if(err) console.log(err);
+            imagesArray.push(filename);
+            return imagesArray;
+        });
+    }
+}
 
 module.exports = router;
