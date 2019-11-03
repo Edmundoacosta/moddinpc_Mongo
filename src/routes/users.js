@@ -4,6 +4,7 @@ const auth = require('./auth');
 const User = require('../models/user');
 const mongoose = require('mongoose');
 const passport = require('passport');
+const nodeMailer = require('nodemailer');
 
 router.post("/register", async (req, res, next) => {
 	var user = new User(req.body);
@@ -12,6 +13,29 @@ router.post("/register", async (req, res, next) => {
 	user.save().then(function(){
 		return res.json({user: user.toAuthJSON()});
 	}).catch(next);
+});
+
+router.post("/password", async (req, res, next) => {
+    let transporter = nodeMailer.createTransport({
+        host: 'smtp.gmail.com',
+        secure: true,
+        auth: {
+            user: 'edmundoach23@gmail.com',
+            pass: 'Serelmejor18'
+        }
+  });
+  let mailOptions = {
+      to: 'darkmegion@gmail.com',
+      subject: 'Recuperar contraseña ecogozo',
+      html: '<p>Chupapinga</p>'
+  };
+  transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+          return console.log(error);
+      }
+      console.log('Message %s sent: %s', info.messageId, info.response);
+  });
+  res.end();
 });
 
 router.post("/login", async(req,res, next) => {

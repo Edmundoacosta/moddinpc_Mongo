@@ -28,6 +28,7 @@ router.post("/add", auth.required, async (req, res, next) => {
     fs.writeFile(DIR + filename, req.body.principalImg, 'base64', async function(err) {
         req.body.principalImg = filename;
         req.body.images = await allImages(companyName, req.body.images);
+        console.log(req.body.images);
         let product = await Product.create(req.body);
         return res.send({
             status: 201,
@@ -78,24 +79,34 @@ router.put('/update', auth.required, function(req,res,next){
     }).catch(next);
 });
 
-async function allImages(name, images){
-    let imagesArray = [];
-    let imageName = name.toLowerCase().split(' ').join('_');
-    imageName = imageName.replace(/#|&|%|,|¡|!/gi, '-');
-    imageName = imageName.replace(/á/gi, 'a');
-    imageName = imageName.replace(/é/gi, 'e');
-    imageName = imageName.replace(/í/gi, 'i');
-    imageName = imageName.replace(/ó/gi, 'o');
-    imageName = imageName.replace(/ú|ü/gi, 'u');
-    imageName = imageName.replace(/ñ/gi, 'ni');
-    for (var i = 0; i < images.length; i++) {
-        let filename = imageName + (i+1).toString() + '.png';
-        fs.writeFile(DIR + filename, images[i], 'base64', async function(err) {
-            if(err) console.log(err);
+function allImages(name, images){
+    return new Promise(async function(resolve, reject) {
+        let imagesArray = [];
+        let imageName = name.toLowerCase().split(' ').join('_');
+        imageName = imageName.replace(/#|&|%|,|¡|!/gi, '-');
+        imageName = imageName.replace(/á/gi, 'a');
+        imageName = imageName.replace(/é/gi, 'e');
+        imageName = imageName.replace(/í/gi, 'i');
+        imageName = imageName.replace(/ó/gi, 'o');
+        imageName = imageName.replace(/ú|ü/gi, 'u');
+        imageName = imageName.replace(/ñ/gi, 'ni');
+        for (var i = 0; i < images.length; i++) {
+            let filename = imageName + (i+1).toString() + '.png';
+            await asyn_writefile(DIR + filename, images[i]);
             imagesArray.push(filename);
-            return imagesArray;
+            if(i == images.length - 1){
+                resolve(imagesArray);
+            }
+        }
+    });
+}
+
+function asyn_writefile(dirname, image){
+    return new Promise(function(resolve, reject) {
+        fs.writeFile(dirname, image, 'base64', function(err) {
+            resolve(true);
         });
-    }
+    });
 }
 
 module.exports = router;

@@ -20,6 +20,7 @@ const UserSchema = new Schema({
 	country: {type: String, required: true, default: 'Perú'},
 	department: {type: String, required: true},
 	postalCode: {type: Number},
+	verification: {type: String },
 	salt: String,
 	hash: String,
 	status: Boolean
