@@ -18,6 +18,17 @@ router.get('/all', async (req, res) => {
         })
 });
 
+router.get('/allsubcategories', async (req, res) => {
+    var sub = await Subcategory.find({})
+        .then(function(sub) {
+            return res.send({
+                status: 200,
+                message: 'OK',
+                result: sub
+            });
+        })
+});
+
 router.post('/create', auth.required, function(req,res,next){
     Category.create(req.body)
     	.then(function(category){

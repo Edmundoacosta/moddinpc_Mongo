@@ -28,7 +28,6 @@ router.post("/add", auth.required, async (req, res, next) => {
     fs.writeFile(DIR + filename, req.body.principalImg, 'base64', async function(err) {
         req.body.principalImg = filename;
         req.body.images = await allImages(companyName, req.body.images);
-        console.log(req.body.images);
         let product = await Product.create(req.body);
         return res.send({
             status: 201,
