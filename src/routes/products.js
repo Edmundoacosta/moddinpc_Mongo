@@ -48,6 +48,28 @@ router.get('/all', async (req, res) => {
         })
 });
 
+router.get('/getById/:id', async (req, res) => {
+    var prod = await Product.findById(req.params.id)
+        .then(function(prod) {
+            return res.send({
+                status: 200,
+                message: 'OK',
+                result: prod
+            });
+        })
+});
+
+router.get('/getByType/:type', async (req, res) => {
+    var prod = await Product.find({ subcategory: req.params.type})
+        .then(function(prod) {
+            return res.send({
+                status: 200,
+                message: 'OK',
+                result: prod
+            });
+        })
+});
+
 router.put('/update', auth.required, function(req,res,next){
     Product.findById(req.params.id).then(function(prod){
         if(!prod){return res.sendStatus(401);}

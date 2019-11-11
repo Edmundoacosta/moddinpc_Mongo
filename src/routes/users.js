@@ -16,13 +16,13 @@ router.post("/register", async (req, res, next) => {
 });
 
 router.post("/password", async (req, res, next) => {
-    let transporter = nodeMailer.createTransport({
-        host: 'smtp.gmail.com',
-        secure: true,
-        auth: {
-            user: 'edmundoach23@gmail.com',
-            pass: 'Serelmejor18'
-        }
+  let transporter = nodeMailer.createTransport({
+    host: 'smtp.gmail.com',
+    secure: true,
+    auth: {
+      user: 'edmundoach23@gmail.com',
+      pass: 'Serelmejor18'
+    }
   });
   let mailOptions = {
       to: 'darkmegion@gmail.com',

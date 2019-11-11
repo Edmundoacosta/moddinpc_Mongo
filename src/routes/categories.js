@@ -6,6 +6,17 @@ const Subcategory = require('../models/subcategories');
 const mongoose = require('mongoose');
 
 
+router.get('/categories', async (req, res) => {
+    var cat = await Category.find({}, {name: 1})
+        .then(function(cat) {
+            return res.send({
+                status: 200,
+                message: 'OK',
+                result: cat
+            });
+        })
+});
+
 router.get('/all', async (req, res) => {
     var cat = await Category.find({})
         .populate('subcategories')
@@ -27,6 +38,18 @@ router.get('/allsubcategories', async (req, res) => {
                 result: sub
             });
         })
+});
+
+router.get('/children/:name', auth.required, function(req,res,next){
+    Category.find({ name: req.params.name})
+        .populate('subcategories')
+        .then(function(child){
+        return res.send({
+            status: 200,
+            message: 'OK',
+            result: child[0]
+        });
+    }).catch(next);
 });
 
 router.post('/create', auth.required, function(req,res,next){
