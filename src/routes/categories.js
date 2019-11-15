@@ -40,7 +40,7 @@ router.get('/allsubcategories', async (req, res) => {
         })
 });
 
-router.get('/children/:name', auth.required, function(req,res,next){
+router.get('/children/:name', function(req,res,next){
     Category.find({ name: req.params.name})
         .populate('subcategories')
         .then(function(child){

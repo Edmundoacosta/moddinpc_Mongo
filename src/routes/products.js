@@ -5,7 +5,7 @@ const Product = require('../models/product');
 const mongoose = require('mongoose');
 const fileUpload = require("express-fileupload");
 var fs = require('fs');
-const DIR = './src/public/products/';
+const DIR = './public/products/';
 
 router.post("/add", auth.required, async (req, res, next) => {
 	if(!req.body.principalImg){
