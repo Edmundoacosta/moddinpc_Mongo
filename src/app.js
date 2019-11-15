@@ -41,7 +41,8 @@ app.use('/users', users);
 app.use('/address', addresses);
 app.use('/products', products);
 app.use('/category', categories);
-
+app.use(express.static(path.join(__dirname, 'public')));
+app.use("/public", express.static("public"));
 
 app.listen(app.get('port'), () => {
 	console.log('Server on port', app.get('port'));
