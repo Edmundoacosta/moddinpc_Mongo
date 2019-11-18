@@ -14,10 +14,12 @@ const constants = require('../lib/constants');
 const fileUpload = require("express-fileupload");
 require('./config/passport');
 
+//Importar vars
+require('dotenv').config({path: 'variables.env'});
 
 //connecting to DB
 mongoose.Promise = global.Promise;
-mongoose.connect(constants.MONGO_PATH)
+mongoose.connect(process.env.DB_URL)
 	.then(() => console.log('db is connected'))
 		.catch(err => console.log(err));
 

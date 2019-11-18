@@ -11,6 +11,8 @@ const ProductSchema = new Schema({
 		{ type: String}
 	],
 	price: {type: Number},
+	discount: {type: Number},
+	pdf: { type: String},
 	inStock: {type: Number},
 	subcategory: {type: String}
 	// reference: {
