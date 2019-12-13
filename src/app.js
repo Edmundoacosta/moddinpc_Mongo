@@ -9,6 +9,7 @@ const users = require('./routes/users');
 const addresses = require('./routes/addresses');
 const products = require('./routes/products');
 const categories = require('./routes/categories');
+const transactions = require('./routes/transactions');
 const cors = require('cors');
 const constants = require('../lib/constants');
 const fileUpload = require("express-fileupload");
@@ -43,6 +44,7 @@ app.use('/users', users);
 app.use('/address', addresses);
 app.use('/products', products);
 app.use('/category', categories);
+app.use('/transactions', categories);
 app.use(express.static(path.join(__dirname, 'public')));
 app.use("/public", express.static("public"));
 

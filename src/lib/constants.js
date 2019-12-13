@@ -5,6 +5,14 @@ function define(name, value) {
 	});
 }
 
+define('STATES', [
+	'Pedido',
+	'Confirmado',
+	'Enviado',
+	'Completo',
+	'Cancelado'
+]);
+
 
 define('DEPARTMENTS', [
 	'Amazonas',
