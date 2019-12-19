@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 const fileUpload = require("express-fileupload");
 var fs = require('fs');
 const DIR = './public/products/';
+const DIRP = './public/pdfs/';
 
 router.post("/add", auth.required, async (req, res, next) => {
 	if(!req.body.principalImg){
@@ -25,14 +26,18 @@ router.post("/add", auth.required, async (req, res, next) => {
     companyName = companyName.replace(/ú|ü/gi, 'u');
     companyName = companyName.replace(/ñ/gi, 'ni');
     let filename = companyName + '.png';
+    let pdfname = companyName + '.pdf';
     fs.writeFile(DIR + filename, req.body.principalImg, 'base64', async function(err) {
         req.body.principalImg = filename;
         req.body.images = await allImages(companyName, req.body.images);
-        let product = await Product.create(req.body);
-        return res.send({
-            status: 201,
-            message: 'OK',
-            result: product
+        fs.writeFile(DIRP + pdfname, req.body.mainPdf, 'base64', async function(err) {
+            req.body.mainPdf = pdfname;
+            let product = await Product.create(req.body);
+            return res.send({
+                status: 201,
+                message: 'OK',
+                result: product
+            });
         });
     });
 });
@@ -98,6 +103,15 @@ router.put('/update', auth.required, function(req,res,next){
             return res.json({prod: prod.toAuthJSON()});
         });
     }).catch(next);
+});
+
+router.delete('/delete/:id', auth.required, function(req,res,next){
+    Product.findOneAndRemove({ _id: req.params.id}).then(function(ans){
+        res.send({
+            status: 201,
+            result: ans
+        });
+    });
 });
 
 function allImages(name, images){

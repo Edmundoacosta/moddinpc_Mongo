@@ -16,29 +16,6 @@ router.get('/all', async (req, res) => {
         })
 });
 
-// router.get('/allsubcategories', async (req, res) => {
-//     var sub = await Subcategory.find({})
-//         .then(function(sub) {
-//             return res.send({
-//                 status: 200,
-//                 message: 'OK',
-//                 result: sub
-//             });
-//         })
-// });
-
-// router.get('/children/:name', function(req,res,next){
-//     Category.find({ name: req.params.name})
-//         .populate('subcategories')
-//         .then(function(child){
-//         return res.send({
-//             status: 200,
-//             message: 'OK',
-//             result: child[0]
-//         });
-//     }).catch(next);
-// });
-
 router.post('/create', auth.required, function(req,res,next){
     Transactions.create(req.body)
     	.then(function(category){
@@ -49,39 +26,16 @@ router.post('/create', auth.required, function(req,res,next){
     	})
 });
 
-// router.post('/subcreate', auth.required, function(req,res,next){
-//     let result = {};
-//     Subcategory.create(req.body)
-//         .then(function(sub){
-//             result = sub;
-//             return Category.findByIdAndUpdate(req.body.parent, { $push: {subcategories: sub._id}});
-//         }).then(function(cate){
-//             res.send({
-//                 status: 201,
-//                 result: cate
-//             })
-//         });
-// });
-
-// router.put('/update', auth.required, function(req,res,next){
-//     Category.findById(req.body.id).then(function(category){
-//         if(!category){return res.sendStatus(401);}
-//         if(typeof req.body.name !== 'undefined'){
-//             category.name = req.body.name;
-//         }
-//         return category.save().then(function(){
-//             return res.json({category: category.toAuthJSON()});
-//         });
-//     }).catch(next);
-// });
-
-// router.delete('/delete/:id', auth.required, function(req,res,next){
-//     Subcategory.findOneAndRemove({ _id: req.params.id}).then(function(ans){
-//         res.send({
-//             status: 201,
-//             result: ans
-//         });
-//     });
-// });
+router.put('/update', auth.required, function(req,res,next){
+    Transactions.findById(req.params.id).then(function(tran){
+        if(!tran){return res.sendStatus(401);}
+        if(typeof req.body.tran.status !== 'undefined'){
+            tran.status = req.body.tran.status;
+        }
+        return tran.save().then(function(){
+            return res.json({tran: tran.toAuthJSON()});
+        });
+    }).catch(next);
+});
 
 module.exports = router;

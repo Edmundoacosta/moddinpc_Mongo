@@ -88,7 +88,16 @@ router.put('/update', auth.required, function(req,res,next){
     }).catch(next);
 });
 
-router.delete('/delete/:id', auth.required, function(req,res,next){
+router.delete('/deleteCat/:id', auth.required, function(req,res,next){
+    Category.findOneAndRemove({ _id: req.params.id}).then(function(ans){
+        res.send({
+            status: 201,
+            result: ans
+        });
+    });
+});
+
+router.delete('/deleteSub/:id', auth.required, function(req,res,next){
     Subcategory.findOneAndRemove({ _id: req.params.id}).then(function(ans){
         res.send({
             status: 201,
