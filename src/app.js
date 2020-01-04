@@ -20,7 +20,7 @@ require('dotenv').config({path: 'variables.env'});
 
 //connecting to DB
 mongoose.Promise = global.Promise;
-mongoose.connect(process.env.DB_URL)
+mongoose.connect(mongodb+srv://Edmundo:serelmejor23@cluster0-1wnyc.gcp.mongodb.net/modPC-server?retryWrites=true&w=majority)
 	.then(() => console.log('db is connected'))
 		.catch(err => console.log(err));
 
