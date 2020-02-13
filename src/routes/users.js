@@ -61,6 +61,7 @@ router.get('/user', auth.required, function(req,res,next){
     User.findById(req.payload.id)
         .select('-password -hash -salt')
         .populate('addresses')
+        .populate('transactions')
         .then(function(user){
         if(!user){return res.sendStatus(401);}
         return res.json({user: user});
