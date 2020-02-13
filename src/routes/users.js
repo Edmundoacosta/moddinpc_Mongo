@@ -70,14 +70,14 @@ router.get('/user', auth.required, function(req,res,next){
 
 router.get('/all', async (req, res) => {
     var user = await User.find({})
-        .populate('addresses')
-        .then(function(user) {
-            return res.send({
-                status: 200,
-                message: 'OK',
-                result: user
-            });
-        })
+      .populate('addresses')
+      .then(function(user) {
+          return res.send({
+              status: 200,
+              message: 'OK',
+              result: user
+          });
+      })
 });
 
 router.put('/user', auth.required, function(req,res,next){
