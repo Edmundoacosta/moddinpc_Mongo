@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const auth = require('./auth');
 const Transactions = require('../models/transactions');
+const User = require('../models/user');
 const mongoose = require('mongoose');
 
 router.get('/all', async (req, res) => {
@@ -17,13 +18,17 @@ router.get('/all', async (req, res) => {
 });
 
 router.post('/create', auth.required, function(req,res,next){
+    let result = {};
     Transactions.create(req.body)
-    	.then(function(category){
-    		res.send({
-    			status: 201,
-    			result: category
-    		})
-    	})
+    	.then(function(tran){
+            result = tran;
+            return User.findByIdAndUpdate(req.payload.id, { $push: {transactions: tran._id}});
+    	}).then(function(user){
+            res.send({
+                status: 201,
+                result: user
+            });
+        });
 });
 
 router.put('/update', auth.required, function(req,res,next){
